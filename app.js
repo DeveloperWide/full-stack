@@ -6,10 +6,14 @@ const PORT = process.env.PORT || 3000;
 const ejsMate = require('ejs-mate')
 const Listing = require("./models/listings");
 const path = require("path");
+const methodOverride = require("method-override");
+
+app.use(methodOverride('_method'));
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', ejsMate);
 
+app.use(express.static(path.join(__dirname, "/public")))
 app.set('views', path.join(__dirname, "views"));
 app.set('view engine', 'ejs'); // so you can render('index')
 
@@ -55,6 +59,32 @@ app.get("/listings/:id", async (req, res) => {
     const listing = await Listing.findById(id);
     res.render("listings/show.ejs", { listing });
 })
+
+//Edit Form
+app.get("/listings/:id/edit", async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", { listing })
+})
+
+//Update Route
+app.put("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findByIdAndUpdate(id, { $set: { ...req.body.listing } })
+    console.log(listing);
+    res.redirect(`/listings/${id}`);
+})
+
+//Destroy Route
+app.delete("/listings/:id", async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findByIdAndDelete(id);
+    console.log(listing)
+    res.redirect("/listings")
+})
+
+// CRUD - Create Listings , Read , Update , Delete
+
 app.listen(PORT, () => {
     console.log(`Server is listing on PORT ${PORT}`)
 })

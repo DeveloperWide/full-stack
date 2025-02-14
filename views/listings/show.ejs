@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= listing.title %></title>
-  </head>
-  <body>
-    <div>
-      <h3><b>Title:</b> <%= listing.title %></h3>
-      <p><b>Description:</b> <%= listing.description %></p>
-      <img src="<%= listing.image %>" alt="<%= listing.title %>" height="200" />
-      <p><b>Price: </b><%= listing.price %></p>
-      <p><b>Location:</b> <%= listing.location %></p>
-      <p><b>Country:</b> <%= listing.country %></p>
-    </div>
-  </body>
-</html>
+<% layout("./boilerplate/boilerplate.ejs") %>
+<div>
+  <h3><b>Title:</b> <%= listing.title %></h3>
+  <p><b>Description:</b> <%= listing.description %></p>
+  <img src="<%= listing.image %>" alt="<%= listing.title %>" height="200" />
+  <p><b>Price: </b><%= listing.price %></p>
+  <p><b>Location:</b> <%= listing.location %></p>
+  <p><b>Country:</b> <%= listing.country %></p>
+  <a href="/listings/<%= listing._id %>/edit"><Button>Edit</Button></a>
+  <br /><br />
+  <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+    <button>Delete</button>
+  </form>
+</div>
