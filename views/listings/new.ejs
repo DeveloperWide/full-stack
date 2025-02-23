@@ -1,61 +1,78 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
-<h1>Create New Listing</h1>
-<form action="/listings" method="POST">
-  <div>
-    <label for="title">Title:</label>
-    <input
-      type="text"
-      name="title"
-      placeholder="Enter Your Listing Title"
-      id="title"
-    />
-  </div>
-  <br />
-  <div>
-    <label for="description">Description:</label>
-    <textarea
-      name="description"
-      placeholder="Enter Your Description Here"
-      rows="5"
-      cols="20"
-      id="description"
-    ></textarea>
-  </div>
-  <br />
-  <div>
-    <label for="image">Image URL:</label
-    ><input type="text" name="image" placeholder="Your Image URL" id="image" />
-  </div>
-  <br />
+<div class="form-container">
+  <form action="/listings" method="POST" id="listingForm">
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        name="title"
+        placeholder="Enter Your Listing Title"
+        id="title"
+      />
+      <div class="error" id="titleError"></div>
+      <div class="success" id="titleSuccess"></div>
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea
+        name="description"
+        placeholder="Enter Your Description Here"
+        rows="5"
+        cols="20"
+        id="description"
+      ></textarea>
+      <div class="error" id="descriptionError"></div>
+      <div class="success" id="descriptionSuccess"></div>
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="image">Image URL:</label
+      ><input
+        type="text"
+        name="image"
+        placeholder="Your Image URL"
+        id="image"
+      />
+      <div class="success" id="imageSuccess"></div>
+    </div>
+    <br />
 
-  <div>
-    <label for="price">Price:</label>
-    <input
-      type="number"
-      name="price"
-      placeholder="Enter Your listing Price Here (e.g. 26000)"
-      id="price"
-    />
-  </div>
-  <br />
-  <div>
-    <label for="location">Location</label>
-    <input
-      type="text"
-      name="location"
-      placeholder="Enter Your location"
-      id="location"
-    />
-  </div>
-  <br />
-  <div>
-    <label for="country">Country:</label>
-    <input
-      type="text"
-      name="country"
-      placeholder="Enter Your Country here"
-      id="country"
-    />
-  </div>
-  <button>Submit</button>
-</form>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input
+        type="number"
+        name="price"
+        placeholder="Enter Your listing Price Here (e.g. 26000)"
+        id="price"
+      />
+      <div class="error" id="priceError"></div>
+      <div class="success" id="priceSuccess"></div>
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input
+        type="text"
+        name="location"
+        placeholder="Enter Your location"
+        id="location"
+      />
+      <div class="error" id="locationError"></div>
+      <div class="success" id="locationSuccess"></div>
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="country">Country:</label>
+      <input
+        type="text"
+        name="country"
+        placeholder="Enter Your Country here"
+        id="country"
+      />
+      <div class="error" id="countryError"></div>
+      <div class="success" id="countrySuccess"></div>
+    </div>
+    <input type="submit" value="submit" class="btn" />
+  </form>
+</div>

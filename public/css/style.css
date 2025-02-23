@@ -90,3 +90,184 @@ div.cards-container {
 .card p {
   padding: 15px;
 }
+
+/* Show Page Styling */
+.show-listing {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.listing-title {
+  color: #0d6efd;
+  font-size: 30px;
+  padding: 1.5%;
+  text-transform: capitalize;
+}
+
+.listing-location {
+  color: #33333383;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.listing-img {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 80%;
+  border-radius: 20px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.listing-img img {
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.listing-description {
+  width: 70%;
+  margin: 0 auto;
+  color: black;
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: start;
+}
+
+hr {
+  width: 70%;
+  margin: 0px auto;
+}
+
+.listing-price {
+  width: 70%;
+  color: #198754;
+  font-size: 30px;
+  text-align: start;
+  margin: 10px 12px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.row .left-side {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.left-side button {
+  padding: 10px;
+  margin: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.edit-btn button {
+  padding: 10px;
+  margin: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  cursor: pointer; /* Ensure pointer cursor */
+  background-color: #0d6efd; /* Optional: Blue like Bootstrap */
+  color: white;
+}
+
+.delete-btn {
+  color: white;
+}
+
+.delete-btn:hover {
+  cursor: pointer;
+}
+
+/* Form Styling */
+.form-container {
+  display: flex;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  justify-content: center;
+  align-content: center;
+  margin: 20px auto;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px 30px;
+  background: #007bff;
+  color: white;
+  border: none;
+  margin: 12px 0px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px 35px 10px 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: border 0.3s;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 10px 35px 10px 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: border 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #333;
+}
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+.success {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+  display: none;
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}

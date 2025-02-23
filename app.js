@@ -83,7 +83,6 @@ app.delete("/listings/:id", async (req, res) => {
     res.redirect("/listings")
 })
 
-// CRUD - Create Listings , Read , Update , Delete
 
 app.listen(PORT, () => {
     console.log(`Server is listing on PORT ${PORT}`)
