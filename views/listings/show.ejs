@@ -1,15 +1,15 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
 
 <div class="show-listing">
-  <h3 class="listing-title"><%= listing.title.trim() %></h3>
+  <h3 class="listing-title"><%= listing.title %></h3>
   <p class="listing-location">
-    <%= listing.location.trim() %>, <%= listing.country.trim() %>
+    <%= listing.location %>, <%= listing.country %>
   </p>
 
   <div class="listing-img">
-    <img src="<%= listing.image %>" alt="<%= listing.title.trim() %>" />
+    <img src="<%= listing.image %>" alt="<%= listing.title %>" />
   </div>
-  <p class="listing-description"><%= listing.description.trim() %></p>
+  <p class="listing-description"><%= listing.description %></p>
   <hr />
   <div class="row">
     <p class="listing-price">
