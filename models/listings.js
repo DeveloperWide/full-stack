@@ -1,8 +1,14 @@
 const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema({
-    title: String,
-    description: String,
+    title: {
+        type: String,
+        required : true
+    },
+    description: {
+        type: String,
+        required : true
+    },
     image: {
         type: String,
         default:
@@ -12,9 +18,18 @@ const listingSchema = new mongoose.Schema({
                 ? "https://assets-news.housing.com/news/wp-content/uploads/2022/02/27121904/featured-compressed-67.jpg"
                 : v,
     },
-    price: Number,
-    location: String,
-    country: String,
+    price: {
+        type: Number,
+        required: true
+    },
+    location: {
+        type: String,
+        require: true
+    },
+    country: {
+        type: String,
+        require: true
+    },
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

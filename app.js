@@ -9,7 +9,6 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ExpressError = require("./utills/ExpressError");
 const wrapAsync = require("./utills/wrapAsync");
-const { wrap } = require("module");
 app.use(methodOverride("_method"));
 
 // use ejs-locals for all ejs templates:
@@ -57,7 +56,7 @@ app.get("/listings/new", (req, res) => {
 //Create Route
 app.post(
   "/listings",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     const listing = new Listing(req.body);
     await listing.save();
     res.redirect("/listings");
@@ -90,12 +89,15 @@ app.get(
 //Update Route
 app.put(
   "/listings/:id",
-  wrapAsync(async (req, res) => {
+  wrapAsync(async (req, res, next) => {
     let { id } = req.params;
+    
     const listing = await Listing.findByIdAndUpdate(id, {
       $set: { ...req.body.listing },
-    });
-    console.log(listing);
+    }, {runValidators: true});
+    if (!listing) {
+      next(new ExpressError(400, "Listing Doesn't Exist"));
+    }
     res.redirect(`/listings/${id}`);
   })
 );
@@ -111,15 +113,15 @@ app.delete(
   })
 );
 
+//404 for Another Routes
+app.all("*", (req, res) => {
+  throw new ExpressError(404, "Page Not Found!");
+});
+
 //Error Handling Middleware
 app.use((err, req, res, next) => {
   let { status = 500, message = "Some Error Occurred" } = err;
   res.status(status).send(message);
-});
-
-//Page Not Found Middleware
-app.use((req, res, next) => {
-  res.status(404).send("Page Not Found!");
 });
 
 app.listen(PORT, () => {
