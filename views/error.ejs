@@ -1,0 +1,28 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+
+<style>
+    .error-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        height: 70px;
+        width: 100vw;
+    }
+
+    .error-msg{
+      color: red;
+      font-size: 1.5rem;
+      padding: 1.2rem;
+      border: 2px solid red;
+      border-radius: 1rem;
+    }
+
+    .error-msg i{
+        font-size: 1.7rem;
+    }
+</style>
+
+<div class="error-container">
+    <p class="error-msg"><i class="fa-solid fa-triangle-exclamation"></i> <b>Error:</b> <%= message %></p>
+</div>

@@ -9,6 +9,18 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ExpressError = require("./utills/ExpressError");
 const wrapAsync = require("./utills/wrapAsync");
+const { listingSchema } = require("./schema");
+
+
+const validateListing = (req, res, next) => {
+  let {error} = listingSchema.validate(req.body);
+  if(error){
+    throw new ExpressError(400, error)
+  }else{
+    next();
+  }
+}
+
 app.use(methodOverride("_method"));
 
 // use ejs-locals for all ejs templates:
@@ -56,8 +68,9 @@ app.get("/listings/new", (req, res) => {
 //Create Route
 app.post(
   "/listings",
+  validateListing,
   wrapAsync(async (req, res, next) => {
-    const listing = new Listing(req.body);
+    const listing = new Listing(req.body.listing);
     await listing.save();
     res.redirect("/listings");
   })
@@ -89,15 +102,12 @@ app.get(
 //Update Route
 app.put(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
-    
     const listing = await Listing.findByIdAndUpdate(id, {
       $set: { ...req.body.listing },
     }, {runValidators: true});
-    if (!listing) {
-      next(new ExpressError(400, "Listing Doesn't Exist"));
-    }
     res.redirect(`/listings/${id}`);
   })
 );
@@ -121,7 +131,7 @@ app.all("*", (req, res) => {
 //Error Handling Middleware
 app.use((err, req, res, next) => {
   let { status = 500, message = "Some Error Occurred" } = err;
-  res.status(status).send(message);
+  res.status(status).render("error" , {message});
 });
 
 app.listen(PORT, () => {
