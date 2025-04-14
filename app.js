@@ -10,16 +10,16 @@ const methodOverride = require("method-override");
 const ExpressError = require("./utills/ExpressError");
 const wrapAsync = require("./utills/wrapAsync");
 const { listingSchema } = require("./schema");
-
+const Review = require("./models/reviews");
 
 const validateListing = (req, res, next) => {
-  let {error} = listingSchema.validate(req.body);
-  if(error){
-    throw new ExpressError(400, error)
-  }else{
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    throw new ExpressError(400, error);
+  } else {
     next();
   }
-}
+};
 
 app.use(methodOverride("_method"));
 
@@ -81,7 +81,7 @@ app.get(
   "/listings/:id",
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     if (!listing) {
       next(new ExpressError(404, "Listing Not Found!"));
     }
@@ -105,9 +105,13 @@ app.put(
   validateListing,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
-    const listing = await Listing.findByIdAndUpdate(id, {
-      $set: { ...req.body.listing },
-    }, {runValidators: true});
+    const listing = await Listing.findByIdAndUpdate(
+      id,
+      {
+        $set: { ...req.body.listing },
+      },
+      { runValidators: true }
+    );
     res.redirect(`/listings/${id}`);
   })
 );
@@ -123,6 +127,19 @@ app.delete(
   })
 );
 
+//Reviews
+
+app.post("/listings/:id/reviews", async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+  const newReview = new Review({ ...req.body.review });
+
+  listing.reviews.push(newReview);
+
+  let revRes = await newReview.save();
+  let lisRes = await listing.save();
+  res.redirect(`/listings/${req.params.id}`);
+});
+
 //404 for Another Routes
 app.all("*", (req, res) => {
   throw new ExpressError(404, "Page Not Found!");
@@ -131,7 +148,7 @@ app.all("*", (req, res) => {
 //Error Handling Middleware
 app.use((err, req, res, next) => {
   let { status = 500, message = "Some Error Occurred" } = err;
-  res.status(status).render("error" , {message});
+  res.status(status).render("error", { message });
 });
 
 app.listen(PORT, () => {

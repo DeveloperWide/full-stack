@@ -274,3 +274,58 @@ hr {
     transform: translateX(-5px);
   }
 }
+
+.create-review{
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.create-review h1{
+  font-size: 2rem;
+  color: #007bff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(10px 10px 10px rgb(22, 20, 20));
+}
+
+.review-form{
+  width: 70%;
+  padding: 1.8rem;
+  height: 250px;
+  border: 2px solid grey;
+  border-radius: 1rem;
+  box-shadow: 12px 12px 12px #33333371;
+}
+
+.review-form .form-group{
+  display: flex;
+}
+
+.review-form label{
+  color: #444;
+  font-weight: bold;
+  padding: 1rem;
+}
+
+.review-form input[type="submit"]{
+  
+  font-weight: bolder;
+  padding: 12px;
+  width: 80%;
+  margin: 1rem;
+  margin-left: 10%;
+  border-radius: 1rem;
+  border: 2px solid #333;
+}
+
+.review-form input[type="submit"]:hover{
+  background-color: #333;
+  color: white;
+}
+
+.show-reviews h2{
+  color: #007bff;
+}
