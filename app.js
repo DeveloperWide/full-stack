@@ -9,11 +9,20 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ExpressError = require("./utills/ExpressError");
 const wrapAsync = require("./utills/wrapAsync");
-const { listingSchema } = require("./schema");
+const { listingSchema, reviewSchema } = require("./schema");
 const Review = require("./models/reviews");
 
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
+  if (error) {
+    throw new ExpressError(400, error);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
   if (error) {
     throw new ExpressError(400, error);
   } else {
@@ -129,16 +138,36 @@ app.delete(
 
 //Reviews
 
-app.post("/listings/:id/reviews", async (req, res) => {
-  const listing = await Listing.findById(req.params.id);
-  const newReview = new Review({ ...req.body.review });
+//Create new Review
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  wrapAsync(async (req, res) => {
+    const listing = await Listing.findById(req.params.id);
+    const newReview = new Review({ ...req.body.review });
 
-  listing.reviews.push(newReview);
+    listing.reviews.push(newReview);
 
-  let revRes = await newReview.save();
-  let lisRes = await listing.save();
-  res.redirect(`/listings/${req.params.id}`);
-});
+    let revRes = await newReview.save();
+    let lisRes = await listing.save();
+    res.redirect(`/listings/${req.params.id}`);
+  })
+);
+
+// Delete Review
+
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    //find Lisitng and update it
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    //find  Review and delete it
+    await Review.findByIdAndDelete(reviewId);
+    //after this redirect to show page
+    res.redirect(`/listings/${id}`);
+  })
+);
 
 //404 for Another Routes
 app.all("*", (req, res) => {
