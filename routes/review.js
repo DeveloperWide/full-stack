@@ -27,6 +27,7 @@ router.post(
 
     let revRes = await newReview.save();
     let lisRes = await listing.save();
+    req.flash("success", "Review Created Successfully");
     res.redirect(`/listings/${req.params.id}`);
   })
 );
@@ -42,6 +43,7 @@ router.delete(
     //find  Review and delete it
     await Review.findByIdAndDelete(reviewId);
     //after this redirect to show page
+    req.flash("success", "Review Deleted Successfully");
     res.redirect(`/listings/${id}`);
   })
 );

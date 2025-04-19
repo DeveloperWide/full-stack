@@ -145,3 +145,19 @@ function showSuccess(input, successElement, message) {
   successElement.textContent = message;
   successElement.style.display = "block";
 }
+
+const closeFlashBtn = document.querySelector(".flash-close");
+const flashDiv = document.getElementById("flash-div");
+
+if (closeFlashBtn && flashDiv) {
+  closeFlashBtn.addEventListener("click", () => {
+    // Optional: Add fade-out effect
+    flashDiv.style.transition = "opacity 0.3s ease-in-out";
+    flashDiv.style.opacity = 0;
+
+    // Remove element after fade-out
+    setTimeout(() => {
+      flashDiv.remove(); // or use flashDiv.style.display = "none";
+    }, 300);
+  });
+}
