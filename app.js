@@ -9,6 +9,10 @@ const methodOverride = require("method-override");
 const ExpressError = require("./utills/ExpressError");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user.js");
+
 const sessionOptions = {
   secret: "mysupersecret",
   resave: false,
@@ -20,8 +24,9 @@ const sessionOptions = {
   },
 };
 
-const listings = require("./routes/listings.js");
-const reviews = require("./routes/review.js");
+const listingRoutes = require("./routes/listings.js");
+const reviewRoutes = require("./routes/review.js");
+const userRoutes = require("./routes/user.js");
 
 app.use(methodOverride("_method"));
 
@@ -50,10 +55,28 @@ async function main() {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
+});
+
+app.get("/demoUser", async (req, res) => {
+  let fakeUser = new User({
+    email: "mahesh@gmail.com",
+    username: "mahesh.codes",
+  });
+
+  const registeredUser = await User.register(fakeUser, "helloworld");
+  res.send(registeredUser);
 });
 
 //Redirect On Listings Page
@@ -61,8 +84,9 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingRoutes);
+app.use("/listings/:id/reviews", reviewRoutes);
+app.use("/", userRoutes);
 
 //404 for Another Routes
 app.all("*", (req, res) => {

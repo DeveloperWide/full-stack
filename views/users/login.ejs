@@ -1,0 +1,26 @@
+<% layout("./boilerplate/boilerplate.ejs") %>
+<div class="form-container">
+  <form action="/login" method="POST">
+    <h2>Welcome Back on Wanderlust</h2>
+    <br />
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        name="username"
+        placeholder="Enter Your Username here..."
+        id="username"
+      />
+      <div class="error" id="usernameError"></div>
+      <div class="success" id="usernameSuccess"></div>
+    </div>
+    <br />
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" />
+      <div class="error" id="passwordError"></div>
+      <div class="success" id="passwordSuccess"></div>
+    </div>
+    <input type="submit" value="submit" class="btn" />
+  </form>
+</div>

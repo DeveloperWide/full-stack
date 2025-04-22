@@ -18,6 +18,74 @@ if (reviewForm) {
   });
 }
 
+const userForm = document.getElementById("userForm");
+if (userForm) {
+  userForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (validateUser()) {
+      this.submit();
+    }
+  });
+}
+
+function validateUser() {
+  let username = document.getElementById("username");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password");
+
+  let usernameError = document.getElementById("usernameError");
+  let emailError = document.getElementById("emailError");
+  let passwordError = document.getElementById("passwordError");
+
+  let usernameSuccess = document.getElementById("usernameSuccess");
+  let emailSuccess = document.getElementById("emailSuccess");
+  let passwordSuccess = document.getElementById("passwordSuccess");
+
+  let isValid = true;
+
+  //reset messages for success and error
+  [usernameError, emailError, passwordError].forEach(
+    (e) => (e.style.display = "none")
+  );
+
+  [usernameSuccess, emailSuccess, passwordSuccess].forEach(
+    (e) => (e.style.display = "none")
+  );
+
+  //validate Username
+  if (username.value.trim().length === 0) {
+    username.setAttribute("class", "shake");
+    showError(username, usernameError, "Please enter a valid username!");
+    isValid = false;
+  } else {
+    showSuccess(username, usernameSuccess, "Valid Username!");
+  }
+
+  //Validate email
+  function valid(email) {
+    return email.checkValidity();
+  }
+
+  if (valid(email)) {
+    showSuccess(email, emailSuccess, "Valid email!");
+  } else {
+    email.setAttribute("class", "shake");
+    showError(email, emailError, "Please enter a valid email!");
+    isValid = false;
+  }
+
+  //Validate Password
+  if (password.value.trim().length === 0) {
+    password.setAttribute("class", "shake");
+    showError(password, passwordError, "Please Enter a Valid password!");
+    isValid = false;
+  } else {
+    showSuccess(password, passwordSuccess, "Valid Password!");
+  }
+
+  return isValid;
+}
+
 function validateReview() {
   let review = document.getElementById("reviewComment");
   console.log(review);
