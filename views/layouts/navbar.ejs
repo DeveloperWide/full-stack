@@ -1,10 +1,105 @@
+<style>
+  /* Header styles */
+  #header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+  }
+
+  /* Logo and branding */
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 30% !important;
+  }
+
+
+  /* Main navbar inside logo */
+  .logo .navbar {
+    margin-left: 0.5rem;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .logo .navbar a {
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .logo .navbar a:hover {
+    color: #FF385C;
+  }
+
+  /* Secondary navbar (right side) */
+  nav.navbar {
+    display: flex;
+    gap: 1.5rem;
+    width: 70%;
+    overflow: hidden;
+  }
+
+  nav.navbar a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #555;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s;
+  }
+
+  nav.navbar a:hover {
+    background-color: #FF385C;
+    color: #fff;
+  }
+
+  nav.navbar form input[type="submit"] {
+  font-weight: 500;
+  color: #555;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s;
+ }
+
+nav.navbar form input[type="submit"]:hover {
+  background-color: #FF385C;
+  color: #fff;
+}
+
+</style>
+
 <header id="header">
   <div class="logo">
-    <img src="/Images/favicon.ico" alt="Logo" />
-    <p>airbnb</p>
+    <a href="/"><i class="fa-regular fa-compass" style="color: #FF385C; font-size: 2.3rem;"></i></a>
+    <div class="navbar">
+      <a href="/listings">Home</a>
+      <a href="/listings/new">Create Your Listing</a>
+    </div>
   </div>
   <nav class="navbar">
-    <a href="/listings">Home</a>
-    <a href="/listings/new">Create Your Listing</a>
+    <%if(!currUser) { %>
+      <a href="/signup">Signup</a>
+      <a href="/login">login</a>
+      <% } %>
+    <% if(currUser) {%>
+      <form action="/logout" method="post">
+        <input type="submit" value="logout">
+      </form>
+      <% } %>
   </nav>
 </header>

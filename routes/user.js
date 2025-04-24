@@ -5,7 +5,7 @@ const passport = require("passport");
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
-  res.render("../views/users/signup.ejs");
+  res.render("users/signup");
 });
 
 router.post(
@@ -15,6 +15,14 @@ router.post(
       let { username, email, password } = req.body;
       let user = new User({ email, username });
       let newUser = await User.register(user, password);
+      req.login(newUser, (err) => {
+        if (err) {
+          req.flash("error", err.message);
+          return res.redirect("/listings")
+        }
+        req.flash("success", "Welcome Back on Wanderlust");
+        res.redirect("/listings");
+      })
     } catch (e) {
       req.flash("error", e.message);
       res.redirect("/signup");
@@ -37,5 +45,15 @@ router.post(
     res.redirect("/listings");
   }
 );
+
+router.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "You are logged Out!")
+    res.redirect("/listings")
+  })
+});
 
 module.exports = router;
