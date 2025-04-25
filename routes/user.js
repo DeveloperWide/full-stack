@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const wrapAsync = require("../utills/wrapAsync");
 const passport = require("passport");
+const { saveRedirctUrl } = require("../middleware");
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
@@ -36,13 +37,17 @@ router.get("/login", (req, res) => {
 
 router.post(
   "/login",
+  saveRedirctUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
   }),
   (req, res) => {
     req.flash("success", "Welcome Back on Wanderlust");
-    res.redirect("/listings");
+    console.log(res.locals.redirectUrl);
+    let redirctUrl = res.locals.redirectUrl || "/listings";
+    console.log(redirctUrl);
+    res.redirect(redirctUrl);
   }
 );
 

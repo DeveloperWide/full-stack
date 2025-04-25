@@ -9,12 +9,14 @@
   <div class="listing-img">
     <img src="<%= listing.image %>" alt="<%= listing.title %>" />
   </div>
+  <i><p class="owner">Owned by <%= listing.owner.username %></p></i>
   <p class="listing-description"><%= listing.description %></p>
   <hr />
   <div class="row">
     <p class="listing-price">
       <b>&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</b>
     </p>
+    <% if(currUser._id.equals(listing.owner._id)) {%>
     <div class="left-side">
       <a href="/listings/<%= listing._id %>/edit" class="edit-btn"
         ><button>Edit</button></a
@@ -24,6 +26,7 @@
         <button class="delete-btn" style="background-color: red">Delete</button>
       </form>
     </div>
+    <% } %>
   </div>
   <br />
   <div class="create-review">

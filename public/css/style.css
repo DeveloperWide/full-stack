@@ -95,6 +95,12 @@ div.cards-container {
 }
 
 /* Show Page Styling */
+.owner{
+  text-align: left;
+  margin-left: 12%;
+  padding: 1rem;
+}
+
 .show-listing {
   display: flex;
   flex-direction: column;
