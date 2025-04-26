@@ -1,95 +1,91 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
 
-<div class="show-listing">
-  <h3 class="listing-title"><%= listing.title %></h3>
-  <p class="listing-location">
-    <%= listing.location %>, <%= listing.country %>
-  </p>
-
-  <div class="listing-img">
-    <img src="<%= listing.image %>" alt="<%= listing.title %>" />
-  </div>
-  <i><p class="owner">Owned by <%= listing.owner.username %></p></i>
-  <p class="listing-description"><%= listing.description %></p>
-  <hr />
-  <div class="row">
-    <p class="listing-price">
-      <b>&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</b>
+  <div class="show-listing">
+    <h3 class="listing-title">
+      <%= listing.title %>
+    </h3>
+    <p class="listing-location">
+      <%= listing.location %>, <%= listing.country %>
     </p>
-    <% if(currUser._id.equals(listing.owner._id)) {%>
-    <div class="left-side">
-      <a href="/listings/<%= listing._id %>/edit" class="edit-btn"
-        ><button>Edit</button></a
-      >
-      <br /><br />
-      <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
-        <button class="delete-btn" style="background-color: red">Delete</button>
-      </form>
+
+    <div class="listing-img">
+      <img src="<%= listing.image %>" alt="<%= listing.title %>" />
     </div>
-    <% } %>
-  </div>
-  <br />
-  <div class="create-review">
-    <h1>Leave a Review</h1>
-    <div class="review-form">
-      <form
-        action="/listings/<%=listing._id%>/reviews/"
-        method="post"
-        id="reviewForm"
-      >
-        <div class="form-group">
-          <label for="reviewRating">Rating:</label>
-          <input
-            type="range"
-            name="review[rating]"
-            id="reviewRating"
-            min="1"
-            max="5"
-          />
-        </div>
-        <div class="form-group">
-          <label for="reviewComment">Comment:</label>
-          <textarea
-            placeholder="Enter Your Experience here..!"
-            name="review[comment]"
-            id="reviewComment"
-            cols="30"
-            rows="5"
-          ></textarea>
-          <div class="error" id="reviewError"></div>
-          <div class="success" id="reviewSuccess"></div>
-        </div>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-    <br />
+    <i>
+      <p class="owner">Owned by <%= listing.owner.username %>
+      </p>
+    </i>
+    <p class="listing-description">
+      <%= listing.description %>
+    </p>
     <hr />
-    <br />
-    <div class="show-reviews">
-      <h2>All Reviews</h2>
-      <div class="card-container">
-        <% for( let review of listing.reviews) { %>
-        <div class="review-card">
-          <div class="card-body">
-            <div class="card-info">
-              <div class="card-user"><b>John Doe</b></div>
-              <div class="card-rating">
-                <% for (let i = 1; i <= review.rating; i++) { %>
-                <i class="fa fa-star"></i>
-                <% } %>
-                <form
-                  action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                  method="POST"
-                >
-                  <button class="dlt-btn">Delete</button>
-                </form>
-              </div>
-            </div>
-            <div class="card-comment"><%= review.comment %></div>
-          </div>
+    <div class="row">
+      <p class="listing-price">
+        <b>&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</b>
+      </p>
+      <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+        <div class="left-side">
+          <a href="/listings/<%= listing._id %>/edit" class="edit-btn"><button>Edit</button></a>
+          <br /><br />
+          <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST">
+            <button class="delete-btn" style="background-color: red">Delete</button>
+          </form>
         </div>
         <% } %>
-      </div>
     </div>
+    <br />
+    <% if(currUser) {%>
+      <div class="create-review">
+
+        <h1>Leave a Review</h1>
+        <div class="review-form">
+          <form action="/listings/<%=listing._id%>/reviews/" method="post" id="reviewForm">
+            <div class="form-group">
+              <label for="reviewRating">Rating:</label>
+              <input type="range" name="review[rating]" id="reviewRating" min="1" max="5" />
+            </div>
+            <div class="form-group">
+              <label for="reviewComment">Comment:</label>
+              <textarea placeholder="Enter Your Experience here..!" name="review[comment]" id="reviewComment" cols="30"
+                rows="5"></textarea>
+              <div class="error" id="reviewError"></div>
+              <div class="success" id="reviewSuccess"></div>
+            </div>
+            <input type="submit" value="Submit" />
+          </form>
+
+        </div>
+        <br />
+        <hr />
+        <% } %>
+          <br />
+          <div class="show-reviews">
+            <h2>All Reviews</h2>
+            <div class="card-container">
+              <% for( let review of listing.reviews) { %>
+                <div class="review-card">
+                  <div class="card-body">
+                    <div class="card-info">
+                      <div class="card-user"><b>@<%= review.author.username %></b></div>
+                      <div class="card-rating">
+                        <% for (let i=1; i <=review.rating; i++) { %>
+                          <i class="fa fa-star"></i>
+                          <% } %>
+                          <% if(currUser && !currUser._id.equals(listing.owner)) {%>
+                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                              method="POST">
+                              <button class="dlt-btn">Delete</button>
+                            </form>
+                            <% }  %>
+                      </div>
+                    </div>
+                    <div class="card-comment">
+                      <%= review.comment %>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+            </div>
+          </div>
+      </div>
   </div>
-</div>

@@ -1,19 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const ExpressError = require("../utills/ExpressError");
 const wrapAsync = require("../utills/wrapAsync");
 const Listing = require("../models/listings");
-const { listingSchema } = require("../schema");
-const { isLoggedIn } = require("../middleware");
-
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    throw new ExpressError(400, error);
-  } else {
-    next();
-  }
-};
+const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 
 //Retrive All Listings
 router.get(
@@ -36,7 +25,7 @@ router.post(
   validateListing,
   wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user;
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("success", "Listing Created Successfully");
     res.redirect("/listings");
@@ -48,7 +37,12 @@ router.get(
   "/:id",
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews").populate("owner");
+    const listing = await Listing.findById(id).populate({
+      path: "reviews",
+      populate: {
+        path: "author"
+      }
+    }).populate("owner");
     if (!listing) {
       req.flash("error", "Listing you requested for does not exist");
       res.redirect("/listings");
@@ -61,6 +55,7 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
@@ -76,6 +71,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isOwner,
   validateListing,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
@@ -95,6 +91,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findByIdAndDelete(id);

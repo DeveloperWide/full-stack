@@ -383,6 +383,11 @@ textarea#reviewComment {
   height: auto;
 }
 
+.card-user{
+  color: rgba(255, 255, 255, 0.836);
+  font-size: 1.7rem;
+}
+
 .card-user,
 .card-rating,
 .card-comment {

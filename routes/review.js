@@ -1,20 +1,9 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const ExpressError = require("../utills/ExpressError");
 const wrapAsync = require("../utills/wrapAsync");
 const Listing = require("../models/listings");
-const { reviewSchema } = require("../schema");
 const Review = require("../models/reviews");
-const { isLoggedIn } = require("../middleware");
-
-const validateReview = (req, res, next) => {
-  let { error } = reviewSchema.validate(req.body);
-  if (error) {
-    throw new ExpressError(400, error);
-  } else {
-    next();
-  }
-};
+const { isLoggedIn, isReviewAuthor, validateReview } = require("../middleware");
 
 //Create new Review
 router.post(
@@ -24,7 +13,7 @@ router.post(
   wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
     const newReview = new Review({ ...req.body.review });
-
+    newReview.author = req.user._id;
     listing.reviews.push(newReview);
 
     let revRes = await newReview.save();
@@ -39,6 +28,7 @@ router.post(
 router.delete(
   "/:reviewId",
   isLoggedIn,
+  isReviewAuthor,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
     //find Lisitng and update it
