@@ -313,11 +313,7 @@ hr {
   flex-direction: column;
 }
 
-.review-form label {
-  color: #444;
-  font-weight: bold;
-  padding: 1rem;
-}
+
 
 input[type="range"],
 textarea#reviewComment {
@@ -402,6 +398,10 @@ textarea#reviewComment {
 
 .card-rating form {
   display: inline-block;
+}
+
+.starability-result{
+  margin: 0.5rem 0.7rem;
 }
 
 .card-rating form button.dlt-btn {
