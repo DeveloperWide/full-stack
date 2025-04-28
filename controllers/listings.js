@@ -1,5 +1,5 @@
+const { cloudinary } = require("../cloudConfig");
 const Listing = require("../models/listings");
-
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find();
     res.render("listings/index.ejs", { allListings });
@@ -42,7 +42,10 @@ module.exports.index = async (req, res) => {
             req.flash("error", "Listing you requested for does not exist");
             res.redirect("/listings");
           }
-          res.render("listings/edit.ejs", { listing });
+
+          let originalImg = listing.image.url;
+          let transformedImg = originalImg.replace("upload/", "upload/w_250/");
+          res.render("listings/edit.ejs", { listing, transformedImg });
         }
 
         module.exports.updateListing = async (req, res, next) => {
@@ -53,14 +56,15 @@ module.exports.index = async (req, res) => {
                 { new: true }
             );
 
-            console.log(req)
-            console.log(req.file)
             if (req.file && req.file.path && req.file.filename) {
+              // Delete old image from cloudinary
+              if (listing.image && listing.image.filename) {
+                await cloudinary.uploader.destroy(listing.image.filename);
+              }
         
               // Save new image
               listing.image.url = req.file.path;
               listing.image.filename = req.file.filename;
-              console.log(listing.image)
               await listing.save();
             }
             req.flash("success", "Listing Updated Successfully");

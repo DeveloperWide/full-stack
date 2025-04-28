@@ -4,6 +4,7 @@
     action="/listings/<%= listing._id %>?_method=PUT"
     method="POST"
     id="listingForm"
+    enctype="multipart/form-data"
   >
     <div class="form-group">
       <label for="title">Title:</label>
@@ -34,6 +35,14 @@
     </div>
     <br />
     <div class="form-group">
+      <div>
+        <b>Original Image Here</b>
+        <br>
+        <br>
+        <img src="<%=  transformedImg %>" alt="listing[image]">
+        <br>
+        <br>
+      </div>
       <label for="image">Upload Image:</label
       ><input
         type="file"
