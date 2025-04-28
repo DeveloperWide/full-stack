@@ -187,6 +187,7 @@ function validateForm() {
     showSuccess(country, countrySuccess, "Valid Country!");
   }
 
+
   // Validate Price
   if (
     isNaN(price.value) ||

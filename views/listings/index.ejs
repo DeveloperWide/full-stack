@@ -5,7 +5,7 @@
   <% for(listing of allListings) {%>
   <a href="/listings/<%= listing._id %>">
     <div class="card">
-      <img src="<%= listing.image %>" alt="<%= listing.title %>" />
+      <img src="<%= listing.image.url %>" alt="<%= listing.title %>" />
       <p><b><%= listing.title %></b></p>
       <p style="color: rgba(0, 0, 0, 0.452); padding: 0px 15px">
         <b>&#8377;<%= listing.price.toLocaleString("en-IN") %>/night</b>

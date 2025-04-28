@@ -34,13 +34,12 @@
     </div>
     <br />
     <div class="form-group">
-      <label for="image">Image URL:</label
+      <label for="image">Upload Image:</label
       ><input
-        type="text"
+        type="file"
         name="listing[image]"
-        placeholder="Your Image URL"
         id="image"
-        value="<%= listing.image %>"
+        value="<%= listing.image.url %>"
       />
       <div class="success" id="imageSuccess"></div>
     </div>

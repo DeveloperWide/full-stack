@@ -1,6 +1,6 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
 <div class="form-container">
-  <form action="/listings" method="POST" id="listingForm">
+  <form action="/listings" method="POST" id="listingForm" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title">Title:</label>
       <input
@@ -27,14 +27,15 @@
     </div>
     <br />
     <div class="form-group">
-      <label for="image">Image URL:</label
+      <label for="image">Upload Image:</label
       ><input
-        type="text"
+        type="file"
         name="listing[image]"
-        placeholder="Your Image URL"
         id="image"
+        required
       />
       <div class="success" id="imageSuccess"></div>
+      <div class="error" id="imageError"></div>
     </div>
     <br />
 

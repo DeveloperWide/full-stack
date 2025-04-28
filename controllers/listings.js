@@ -13,6 +13,8 @@ module.exports.index = async (req, res) => {
   module.exports.createListing = async (req, res, next) => {
       const newListing = new Listing(req.body.listing);
       newListing.owner = req.user._id;
+      newListing.image.url = req.file.path;
+      newListing.image.filename = req.file.filename
       await newListing.save();
       req.flash("success", "Listing Created Successfully");
       res.redirect("/listings");
@@ -47,11 +49,20 @@ module.exports.index = async (req, res) => {
             let { id } = req.params;
             const listing = await Listing.findByIdAndUpdate(
               id,
-              {
-                $set: { ...req.body.listing },
-              },
-              { runValidators: true }
+                {$set: { ...req.body.listing }},
+                { new: true }
             );
+
+            console.log(req)
+            console.log(req.file)
+            if (req.file && req.file.path && req.file.filename) {
+        
+              // Save new image
+              listing.image.url = req.file.path;
+              listing.image.filename = req.file.filename;
+              console.log(listing.image)
+              await listing.save();
+            }
             req.flash("success", "Listing Updated Successfully");
             res.redirect(`/listings/${id}`);
           }

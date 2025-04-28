@@ -10,13 +10,8 @@ const listingSchema = new Schema({
     type: String,
   },
   image: {
-    type: String,
-    default:
-      "https://assets-news.housing.com/news/wp-content/uploads/2022/02/27121904/featured-compressed-67.jpg",
-    set: (v) =>
-      v === ""
-        ? "https://assets-news.housing.com/news/wp-content/uploads/2022/02/27121904/featured-compressed-67.jpg"
-        : v,
+    url: String,
+    filename: String,
   },
   price: {
     type: Number,

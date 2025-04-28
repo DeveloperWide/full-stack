@@ -29,9 +29,7 @@ module.exports.renderSignupForm = (req, res) => {
 
       module.exports.login = (req, res) => {
         req.flash("success", "Welcome Back on Wanderlust");
-        console.log(res.locals.redirectUrl);
         let redirctUrl = res.locals.redirectUrl || "/listings";
-        console.log(redirctUrl);
         res.redirect(redirctUrl);
       }
 
