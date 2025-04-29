@@ -1,5 +1,4 @@
 <% layout("./boilerplate/boilerplate.ejs") %>
-
   <div class="show-listing">
     <h3 class="listing-title">
       <%= listing.title %>
@@ -99,6 +98,11 @@
                 <% } %>
             </div>
           </div>
+          
           <% } %>
+          
+          <div id="map-container">
+            <div id="map" data-coordinates='<%= JSON.stringify(listing.geometry.coordinates) %>'></div>
+          </div>
       </div>
   </div>

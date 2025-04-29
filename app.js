@@ -1,6 +1,8 @@
+if(process.env.NODE_ENV = "production"){
+  const dotenv = require("dotenv").config();
+}
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const ejsMate = require("ejs-mate");
