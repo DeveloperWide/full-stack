@@ -1,5 +1,6 @@
 const mapDiv = document.getElementById('map');
-const coords = JSON.parse(mapDiv.dataset.coordinates);
+if(mapDiv){
+  const coords = JSON.parse(mapDiv.dataset.coordinates);
 console.log(coords); // [lng, lat]
 let reversedCoords = coords.reverse();
 console.log(reversedCoords)
@@ -23,17 +24,7 @@ var circle = L.circle(reversedCoords, {
 
 
 marker.bindPopup(listingTitle.innerText).openPopup();
-
-var popup = L.popup();
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
 }
-
-map.on('click', onMapClick);
 
 const listingForm = document.getElementById("listingForm");
 if (listingForm) {

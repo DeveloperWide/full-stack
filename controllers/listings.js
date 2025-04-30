@@ -49,7 +49,6 @@ module.exports.createListing = async (req, res, next) => {
     }
   });
   const listing = await newListing.save();
-  console.log(listing)
   req.flash("success", "Listing Created Successfully");
   res.redirect("/listings");
 }
@@ -107,7 +106,7 @@ module.exports.updateListing = async (req, res, next) => {
 
 module.exports.destroyListing = async (req, res) => {
   let { id } = req.params;
-  let listing = await Listing.findByIdAndDelete(id);
+  await Listing.findByIdAndDelete(id);
   req.flash("success", "Listing Deleted Successfully");
   res.redirect("/listings");
 }
